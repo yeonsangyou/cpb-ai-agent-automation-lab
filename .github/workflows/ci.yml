@@ -14,11 +14,31 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ env.EXPECTED_HEAD_SHA }}
+          persist-credentials: false
       - name: Verify and report tested source
         run: |
           actual_head="$(git rev-parse HEAD)"
           test "$actual_head" = "$EXPECTED_HEAD_SHA"
           printf 'TESTED_SOURCE_SHA=%s\n' "$actual_head"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm test
+  merge-tests:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    env:
+      EXPECTED_MERGE_SHA: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.EXPECTED_MERGE_SHA }}
+          persist-credentials: false
+      - name: Verify and report tested merge candidate
+        run: |
+          actual_merge="$(git rev-parse HEAD)"
+          test "$actual_merge" = "$EXPECTED_MERGE_SHA"
+          printf 'TESTED_MERGE_SHA=%s\n' "$actual_merge"
       - uses: actions/setup-node@v4
         with:
           node-version: '24'
