@@ -10,3 +10,12 @@ This repository is public and synthetic-only. All examples, source code, fixture
 - If blocked by authorization, account sign-in, tooling or tests, report the blocker and stop. No unbounded retries.
 
 All PRs require separately verified acceptance.
+
+## Synthetic minimal-complete rule-consumption canary
+
+This section is original, public, synthetic-lab guidance. It contains no private policy text and grants no execution authority.
+
+- **Reuse first:** inspect the exercise's existing implementation and tests before editing. Prefer the existing code and JavaScript standard library over new helpers, packages, frameworks, or unrelated abstractions.
+- **Smallest complete change:** keep existing exports and contracts intact; address the requested edge case and an adverse or negative case without deleting validation or failure handling.
+- **Evidence receipt:** in the agent's native activity response and draft PR summary, report the exact `AGENTS.md` blob SHA observed in the working tree (`git hash-object AGENTS.md`), the phrase `LAB-MINCOMPLETE-REUSE-FIRST-20261028-R1`, the reuse-versus-add decision, a targeted failing-before/passing-after test, and any checks not run. Never invent commands or results.
+- **Independent acceptance:** the self-reported receipt is a test signal, not proof by itself. An independent read must match the claimed blob to the intended commit, inspect provider-native activities and the actual diff, and verify exact-head tests. A session created against an earlier commit is not evidence of this rule's consumption.
